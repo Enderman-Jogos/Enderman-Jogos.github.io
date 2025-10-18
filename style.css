@@ -92,10 +92,11 @@ a:hover {
   text-decoration: underline;
 }
 .titulo-noticia {
-  background-color: #ff0000; /* vermelho */
+  background-color: #800000; /* vermelho */
   color: white;               /* texto branco para contraste */
   padding: 3px 5px;           /* um pouco de espaçamento */
   font-weight: bold;           /* deixa o título em negrito */
 }
+
 
 
