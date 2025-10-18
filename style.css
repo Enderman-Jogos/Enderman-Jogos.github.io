@@ -74,4 +74,28 @@ footer {
   margin: 2px 0;
   border-radius: 5px;
 }
+/* Links não visitados */
+a:link {
+  color: #ff0000; /* vermelho forte */
+  text-decoration: none;
+}
+
+/* Links visitados */
+a:visited {
+  color: #ff6666; /* vermelho claro */
+  text-decoration: none;
+}
+
+/* Hover (quando o mouse passa por cima) */
+a:hover {
+  color: #ffaaaa; /* um vermelho ainda mais claro */
+  text-decoration: underline;
+}
+.titulo-noticia {
+  background-color: #ff0000; /* vermelho */
+  color: white;               /* texto branco para contraste */
+  padding: 3px 5px;           /* um pouco de espaçamento */
+  font-weight: bold;           /* deixa o título em negrito */
+}
+
 
