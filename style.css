@@ -60,3 +60,12 @@ footer {
   width: 120px;
   margin-top: 10px;
 }
+.derrota {
+    background-color: #800000;
+}
+.empate {
+    background-color: #808000;
+}
+.vitoria {
+    background-color: #008000;
+}
