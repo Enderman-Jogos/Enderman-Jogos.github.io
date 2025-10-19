@@ -132,9 +132,10 @@ tr:hover {
 /* Imagens */
 .foto-nacao {
   width: 60px;
-  height: 40px;
+  height: 60px;
+  border-radius: 50%;
   object-fit: cover;
-  border-radius: 4px;
+  border: 2px solid white;
 }
 
 .foto-jogador {
@@ -143,3 +144,4 @@ tr:hover {
   object-fit: cover;
   display: block;
 }
+
