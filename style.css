@@ -60,76 +60,100 @@ footer {
   width: 120px;
   margin-top: 10px;
 }
+
 .derrota {
-    background-color: #800000;
+  background-color: #800000;
 }
+
 .empate {
-    background-color: #808000;
+  background-color: #808000;
 }
+
 .vitoria {
-    background-color: #008000;
+  background-color: #008000;
 }
+
 .vitoria, .derrota, .empate {
   padding: 5px 10px;
   margin: 2px 0;
   border-radius: 5px;
 }
-/* Links não visitados */
+
+/* Links */
 a:link {
-  color: #ff0000; /* vermelho forte */
+  color: #ff0000;
   text-decoration: none;
 }
 
-/* Links visitados */
 a:visited {
-  color: #ff6666; /* vermelho claro */
+  color: #ff6666;
   text-decoration: none;
 }
 
-/* Hover (quando o mouse passa por cima) */
 a:hover {
-  color: #ffaaaa; /* um vermelho ainda mais claro */
+  color: #ffaaaa;
   text-decoration: underline;
 }
+
+/* Título de notícia */
 .titulo-noticia {
-  background-color: #800000; /* vermelho */
-  color: white;               /* texto branco para contraste */
-  padding: 3px 5px;           /* um pouco de espaçamento */
-  font-weight: bold;           /* deixa o título em negrito */
+  background-color: #800000;
+  color: white;
+  padding: 3px 5px;
+  font-weight: bold;
 }
 
+/* ========================= */
+/*        TABELA             */
+/* ========================= */
+
 table {
-      border-collapse: collapse;
-      margin: 20px auto;
-      width: 90%;
-      background: white;
-      box-shadow: 0 0 8px rgba(0,0,0,0.2);
-    }
+  border-collapse: collapse;
+  margin: 20px auto;
+  width: 90%;
+  background: black;
+  box-shadow: 0 0 8px rgba(255, 0, 0, 0.3);
+}
 
-    th, td {
-      border: 1px solid #000;
-      padding: 10px;
-      text-align: center;
-    }
+th, td {
+  border: 1px solid #b30000;
+  padding: 10px;
+  text-align: center;
+  background-color: black;
+  color: white;
+  font-weight: bold;
+}
 
-    th {
-      background-color: #d10000;
-      color: white;
-    }
+th {
+  background-color: #d10000;
+  color: white;
+  font-weight: bold;
+}
 
-    tr:nth-child(even) {
-      background-color: #f9f9f9;
-    }
+tr:hover {
+  background-color: #111;
+}
 
-    tr:hover {
-      background-color: #ffeaea;
-    }
+/* ========================= */
+/*     IMAGENS               */
+/* ========================= */
 
-    img {
-      width: 60px;
-      height: 60px;
-      border-radius: 50%;
-      object-fit: cover;
-    }
+/* Foto do rosto do jogador (ocupa toda a célula) */
+.foto-jogador {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  border-radius: 0;
+  margin: 0;
+  padding: 0;
+}
 
-
+/* Bandeira ou nacionalidade (pequena e redonda) */
+.foto-nacao {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+  display: inline-block;
+}
