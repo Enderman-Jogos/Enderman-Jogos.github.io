@@ -139,11 +139,12 @@ tr:hover {
 }
 
 .foto-jogador {
-  width: 25%;
-  height: 25%;
-  object-fit: cover;
+  width: 120px;
+  height: auto;
   display: block;
+  margin: 0 auto;
 }
+
 
 
 
