@@ -14,6 +14,139 @@ header {
   border-bottom: 2px solid #660000;
 }
 
+header h1 {
+  margin: 0;
+  color: white;
+  font-size: 32px;
+  text-shadow: 2px 2px 2px #000;
+}
+
+nav {
+  background-color: #990000;
+  text-align: center;
+  padding: 5px 0;
+}
+
+nav a {
+  color: white;
+  text-decoration: none;
+  padding: 8px 15px;
+  display: inline-block;
+  font-weight: bold;
+}
+
+nav a:hover {
+  background-color: #cc0000;
+}
+
+nav a.active {
+  background-color: #ff0000;
+}
+
+main {
+  padding: 20px;
+  text-align: center;
+}
+
+footer {
+  background-color: #222;
+  color: #aaa;
+  text-align: center;
+  font-size: 13px;
+  padding: 10px 0;
+  border-top: 1px solid #444;
+}
+
+.logo-gif {
+  width: 120px;
+  margin-top: 10px;
+}
+
+.derrota {
+  background-color: #800000;
+}
+.empate {
+  background-color: #808000;
+}
+.vitoria {
+  background-color: #008000;
+}
+.vitoria, .derrota, .empate {
+  padding: 5px 10px;
+  margin: 2px 0;
+  border-radius: 5px;
+}
+
+/* Links */
+a:link {
+  color: #ff0000;
+  text-decoration: none;
+}
+a:visited {
+  color: #ff6666;
+  text-decoration: none;
+}
+a:hover {
+  color: #ffaaaa;
+  text-decoration: underline;
+}
+
+/* Título das notícias */
+.titulo-noticia {
+  background-color: #800000;
+  color: white;
+  padding: 3px 5px;
+  font-weight: bold;
+}
+
+/* Tabela de jogadores */
+table {
+  border-collapse: collapse;
+  margin: 20px auto;
+  width: 90%;
+  background: black;
+  color: white;
+  font-weight: bold;
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.2);
+}
+
+th, td {
+  border: 2px solid white; /* bordas mais grossas e brancas */
+  padding: 10px;
+  text-align: center;
+}
+
+th {
+  background-color: #d10000;
+  color: white;
+}
+
+tr:nth-child(even) {
+  background-color: #111;
+}
+
+tr:hover {
+  background-color: #222;
+}
+
+/* Imagens */
+.foto-nacao {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid white;
+}
+
+.foto-jogador {
+  width: 120px;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
+
+
+
 @media (max-width: 768px) {
   header h1 {
     font-size: 24px;
@@ -74,3 +207,4 @@ header {
     width: 60px;
   }
 }
+
