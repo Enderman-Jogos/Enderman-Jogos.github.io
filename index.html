@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulação de Basquete</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #121212;
+            color: #e0e0e0;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container {
+            max-width: 800px;
+            width: 100%;
+            background-color: #1e1e1e;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+        }
+		
+		.logo {
+			display: block;
+			max-width: 200px;
+			height: auto;
+			margin 0 auto 20px auto;
+		}
+
+        h1, h2, h3 {
+            text-align: center;
+            color: #ff6600;
+        }
+
+        .setup-screen, .game-screen, .stats-screen {
+            display: none;
+        }
+
+        .active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        input[type="text"], input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+            background-color: #2d2d2d;
+            border: 1px solid #444;
+            color: #fff;
+            border-radius: 6px;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #ff6600;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background-color: #e05500;
+        }
+
+        .scoreboard {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            background-color: #2d2d2d;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 24px;
+            font-weight: bold;
+            border-bottom: 4px solid #ff6600;
+        }
+
+        .score-box {
+            text-align: center;
+        }
+
+        .score-number {
+            font-size: 48px;
+            color: #fff;
+        }
+
+        .log-container {
+            background-color: #0a0a0a;
+            border: 1px solid #333;
+            height: 300px;
+            overflow-y: auto;
+            padding: 15px;
+            font-family: 'Courier New', Courier, monospace;
+            border-radius: 6px;
+            margin-bottom: 20px;
+        }
+
+        .log-entry {
+            margin-bottom: 8px;
+            line-height: 1.4;
+        }
+
+        .log-important { color: #ffcc00; font-weight: bold; }
+        .log-score { color: #00ffcc; font-weight: bold; }
+        .log-error { color: #ff4444; }
+
+        /* Box Score */
+        .stats-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        .stats-table th, .stats-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #444;
+        }
+
+        .stats-table th {
+            background-color: #2d2d2d;
+            color: #ff6600;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div id="setupScreen" class="setup-screen active">
+		<img src="Logo.png" alt="Latido Futebol Clube" class="logo">
+        <h1>SIMULADOR DE BASQUETE</h1>
+        <hr style="border-color: #333; margin-bottom: 20px;">
+        
+        <div class="form-group">
+            <label>Time da Casa:</label>
+            <input type="text" id="time1" value="Lakers">
+        </div>
+        <div class="form-group">
+            <label>Overall Casa (0-50):</label>
+            <input type="number" id="time1_ovr" min="0" max="50" value="42">
+        </div>
+        
+        <div class="form-group">
+            <label>Time Visitante:</label>
+            <input type="text" id="time2" value="Celtics">
+        </div>
+        <div class="form-group">
+            <label>Overall Visitante (0-50):</label>
+            <input type="number" id="time2_ovr" min="0" max="50" value="40">
+        </div>
+
+        <button onclick="iniciarJogo()">INICIAR PARTIDA</button>
+    </div>
+
+    <div id="gameScreen" class="game-screen">
+        <h2 id="periodoTitulo">1O QUARTO</h2>
+        
+        <div class="scoreboard">
+            <div class="score-box">
+                <div id="nameDisplay1">CASA</div>
+                <div id="scoreDisplay1" class="score-number">0</div>
+            </div>
+            <div>VS</div>
+            <div class="score-box">
+                <div id="nameDisplay2">VISITANTE</div>
+                <div id="scoreDisplay2" class="score-number">0</div>
+            </div>
+        </div>
+
+        <div id="logContainer" class="log-container"></div>
+    </div>
+
+    <div id="statsScreen" class="stats-screen">
+        <h1>FIM DE JOGO</h1>
+        <h2 id="resultadoFinal" style="color: #00ffcc;"></h2>
+        
+        <h3>ESTATISTICAS DA PARTIDA (BOX SCORE)</h3>
+        <table class="stats-table">
+            <thead>
+                <tr>
+                    <th>Estatística</th>
+                    <th id="thTime1">Time 1</th>
+                    <th id="thTime2">Time 2</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Pontos Totais</td>
+                    <td id="statPontos1">0</td>
+                    <td id="statPontos2">0</td>
+                </tr>
+                <tr>
+                    <td>Rebotes Totais</td>
+                    <td id="statRebotes1">0</td>
+                    <td id="statRebotes2">0</td>
+                </tr>
+                <tr>
+                    <td>Faltas Cometidas</td>
+                    <td id="statFaltas1">0</td>
+                    <td id="statFaltas2">0</td>
+                </tr>
+                <tr>
+                    <td>Lances Livres</td>
+                    <td id="statLL1">0/0</td>
+                    <td id="statLL2">0/0</td>
+                </tr>
+            </tbody>
+        </table>
+        <br>
+        <button onclick="location.reload()">JOGAR NOVAMENTE</button>
+    </div>
+</div>
+
+<script>
+    // Variáveis Globais
+    let t1, t2, ovr1, ovr2;
+    let pontos1 = 0, pontos2 = 0;
+    let rebotes1 = 0, rebotes2 = 0;
+    let faltas1 = 0, faltas2 = 0;
+    let ll_conv1 = 0, ll_tot1 = 0;
+    let ll_conv2 = 0, ll_tot2 = 0;
+    
+    let quartoAtual = 1; 
+    let posse = 0; 
+    let jogadaAtual = 1;
+    const maxJogadasPorQuarto = 32;
+    let gameInterval;
+
+    function iniciarJogo() {
+        t1 = document.getElementById('time1').value || "Casa";
+        t2 = document.getElementById('time2').value || "Visitante";
+        ovr1 = Math.min(Math.max(parseInt(document.getElementById('time1_ovr').value) || 0, 0), 50);
+        ovr2 = Math.min(Math.max(parseInt(document.getElementById('time2_ovr').value) || 0, 0), 50);
+
+        document.getElementById('nameDisplay1').innerText = t1;
+        document.getElementById('nameDisplay2').innerText = t2;
+        
+        document.getElementById('setupScreen').classList.remove('active');
+        document.getElementById('gameScreen').classList.add('active');
+
+        posse = Math.floor(Math.random() * 2);
+        adicionarLog(`Posse inicial ganha por: ${posse === 0 ? t1 : t2}`, 'log-important');
+
+        gameInterval = setInterval(rodarSimulacao, 150); 
+    }
+
+    function adicionarLog(texto, classe = '') {
+        const logContainer = document.getElementById('logContainer');
+        const novaLinha = document.createElement('div');
+        novaLinha.className = `log-entry ${classe}`;
+        novaLinha.innerText = texto;
+        logContainer.appendChild(novaLinha);
+        logContainer.scrollTop = logContainer.scrollHeight;
+    }
+
+    function atualizarPlacarVisual() {
+        document.getElementById('scoreDisplay1').innerText = pontos1;
+        document.getElementById('scoreDisplay2').innerText = pontos2;
+    }
+
+    function rodarSimulacao() {
+        document.getElementById('periodoTitulo').innerText = `${quartoAtual}O QUARTO`;
+
+        let ataque = (posse === 0) ? t1 : t2;
+        let defesa = (posse === 0) ? t2 : t1;
+        let ovr_ataque = (posse === 0) ? ovr1 : ovr2;
+        let ovr_defesa = (posse === 0) ? ovr2 : ovr1;
+
+        let vantagem_ataque = (ovr_ataque - ovr_defesa) * 0.6;
+        let evento = Math.floor(Math.random() * 100);
+
+        if (evento < (18 - vantagem_ataque)) {
+            adicionarLog(`[${jogadaAtual}'] AVISO: ${ataque} cometeu um erro de passe! Bola do ${defesa}.`, 'log-error');
+            posse = posse === 0 ? 1 : 0;
+        } 
+        else if (evento < 65) {
+            let chance_falta = Math.floor(Math.random() * 100);
+            
+            if (chance_falta < 15) {
+                adicionarLog(`[${jogadaAtual}'] FALTA! ${ataque} vai para a linha de lance livre!`, 'log-important');
+                if (posse === 0) faltas2++; else faltas1++;
+
+                for(let ll = 1; ll <= 2; ll++) {
+                    let acerto_ll = Math.floor(Math.random() * 100);
+                    let taxa_ll = 50 + (ovr_ataque * 0.7);
+                    
+                    if (acerto_ll < taxa_ll) {
+                        adicionarLog(`  [LL ${ll}] Convertido!`);
+                        if (posse === 0) { pontos1++; ll_conv1++; ll_tot1++; }
+                        else { pontos2++; ll_conv2++; ll_tot2++; }
+                    } else {
+                        adicionarLog(`  [LL ${ll}] Errou!`);
+                        if (posse === 0) ll_tot1++; else ll_tot2++;
+                    }
+                }
+                posse = posse === 0 ? 1 : 0;
+            } else {
+                let acerto_2p = Math.floor(Math.random() * 100);
+                if (acerto_2p < (48 + vantagem_ataque)) {
+                    adicionarLog(`[${jogadaAtual}'] CESTA DE 2 PONTOS do ${ataque}!`);
+                    if (posse === 0) pontos1 += 2; else pontos2 += 2;
+                    posse = posse === 0 ? 1 : 0;
+                } else {
+                    let rebote = Math.floor(Math.random() * 100);
+                    if (rebote < 70) {
+                        adicionarLog(`[${jogadaAtual}'] Errou o arremesso! Rebote defensivo para o ${defesa}.`);
+                        if (posse === 0) rebotes2++; else rebotes1++;
+                        posse = posse === 0 ? 1 : 0;
+                    } else {
+                        adicionarLog(`[${jogadaAtual}'] Errou o arremesso! Rebote OFENSIVO do ${ataque}! Nova chance.`, 'log-important');
+                        if (posse === 0) rebotes1++; else rebotes2++;
+                    }
+                }
+            }
+        } 
+        else {
+            let acerto_3p = Math.floor(Math.random() * 100);
+            if (acerto_3p < (35 + vantagem_ataque)) {
+                adicionarLog(`[${jogadaAtual}'] CESTA! Bola de 3 pontos do ${ataque}!`, 'log-score');
+                if (posse === 0) pontos1 += 3; else pontos2 += 3;
+                posse = posse === 0 ? 1 : 0;
+            } else {
+                let rebote = Math.floor(Math.random() * 100);
+                if (rebote < 65) {
+                    adicionarLog(`[${jogadaAtual}'] Na trave de 3! Rebote do ${defesa}.`);
+                    if (posse === 0) rebotes2++; else rebotes1++;
+                    posse = posse === 0 ? 1 : 0;
+                } else {
+                    adicionarLog(`[${jogadaAtual}'] Errou de 3! ${ataque} briga e pega o rebote ofensivo!`, 'log-important');
+                    if (posse === 0) rebotes1++; else rebotes2++;
+                }
+            }
+        }
+
+        atualizarPlacarVisual();
+        jogadaAtual++;
+
+        if (jogadaAtual > maxJogadasPorQuarto) {
+            adicionarLog(`--- FIM DO ${quartoAtual}O PERIODO Placar: ${t1} ${pontos1} x ${pontos2} ${t2} ---`, 'log-important');
+            
+            if (quartoAtual === 4) {
+                clearInterval(gameInterval);
+                finalizarPartida();
+                return;
+            }
+            
+            quartoAtual++;
+            jogadaAtual = 1;
+        }
+    }
+
+    function finalizarPartida() {
+        document.getElementById('thTime1').innerText = t1;
+        document.getElementById('thTime2').innerText = t2;
+
+        document.getElementById('statPontos1').innerText = pontos1;
+        document.getElementById('statPontos2').innerText = pontos2;
+        document.getElementById('statRebotes1').innerText = rebotes1;
+        document.getElementById('statRebotes2').innerText = rebotes2;
+        document.getElementById('statFaltas1').innerText = faltas1;
+        document.getElementById('statFaltas2').innerText = faltas2;
+        document.getElementById('statLL1').innerText = `${ll_conv1}/${ll_tot1}`;
+        document.getElementById('statLL2').innerText = `${ll_conv2}/${ll_tot2}`;
+
+        if (pontos1 > pontos2) {
+            document.getElementById('resultadoFinal').innerText = `VITORIA DO ${t1}!`;
+        } else if (pontos2 > pontos1) {
+            document.getElementById('resultadoFinal').innerText = `VITORIA DO ${t2}!`;
+        } else {
+            document.getElementById('resultadoFinal').innerText = "EMPATE!";
+        }
+
+        document.getElementById('gameScreen').classList.remove('active');
+        document.getElementById('statsScreen').classList.add('active');
+    }
+</script>
+
+</body>
+</html>
